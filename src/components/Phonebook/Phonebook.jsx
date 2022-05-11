@@ -16,7 +16,6 @@ const  Phonebook = () => {
   const {data} = useFethPhonebookQuery()
   const [deletContact, {isLoading: isDeliting}] = useDeleContactMutation()
   const [createContact] = useCreateContactMutation()
-
   const [filter, setFilter] = useState("")
   
   const changFilter = (event) => {
