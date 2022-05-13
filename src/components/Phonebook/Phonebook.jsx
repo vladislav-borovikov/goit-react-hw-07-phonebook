@@ -1,10 +1,11 @@
 import Form from "../Form/Form";
 import Filter from "../Filter/Filter";
-import {useState} from "react";
 import toast, { Toaster } from 'react-hot-toast';
+import { useDispatch, useSelector } from "react-redux";
 
 
-import {useFethPhonebookQuery, useDeleContactMutation, useCreateContactMutation} from '../../redax/redusers'
+
+import {useFethPhonebookQuery, useCreateContactMutation, addFilter} from '../../redax/redusers'
 
 
 import RenderContacts from "../RenderContact/RenderContact";
@@ -14,16 +15,17 @@ import RenderContacts from "../RenderContact/RenderContact";
 const  Phonebook = () => {
 
   const {data} = useFethPhonebookQuery()
-  const [deletContact, {isLoading: isDeliting}] = useDeleContactMutation()
   const [createContact] = useCreateContactMutation()
-  const [filter, setFilter] = useState("")
-  
-  const changFilter = (event) => {
-    setFilter(event.currentTarget.value);
+  const dispatch = useDispatch()
+
+  const stateFilter = useSelector(state => state.filter.filter)
+
+   const changFilter = (event) => {
+    dispatch(addFilter(event.currentTarget.value))
   };
 
   const visibleRender = () => {
-    const normalizedFilter = filter.toLocaleLowerCase();
+    const normalizedFilter = stateFilter.toLocaleLowerCase();
     return data.filter((contact) =>
       contact.name.toLowerCase().includes(normalizedFilter)
     );
@@ -45,12 +47,9 @@ const  Phonebook = () => {
         <Form onSubmit={createNewContact} />
         <Toaster />
         <h2>Contacts</h2>
-        <Filter value={filter} onChange={changFilter} />
+        <Filter value={stateFilter} onChange={changFilter} />
         {data && <RenderContacts
-          value={visibleRender()}
-          onDelete={deletContact}
-          deleting={isDeliting}
-        />}
+          value={visibleRender()}/>}
       </div>
     );
   

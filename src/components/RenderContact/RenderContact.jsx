@@ -1,20 +1,14 @@
 import React from "react";
+import ContactItem from "../ContactItem/ContactItem"
 
-const RenderContacts = ({ value, onDelete, deleting }) => {
-  return (
+const RenderContacts = ( {value} ) => {
+console.log(value)
+  return (      
     <ul>
-      
-      {value.map(({ id, name, number }) => (
-        <li key={id}>
-          <p>
-            {name} {number} 
-          </p>
-          <button type="submit" onClick={() => onDelete(id)}>
-            DELETE
-          </button>
-        </li>
+      {value.map(contact => (<ContactItem key={contact.id} {...contact}/>
       ))}
     </ul>
+    
   );
 };
 

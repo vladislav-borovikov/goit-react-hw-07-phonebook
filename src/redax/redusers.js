@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createSlice } from '@reduxjs/toolkit'
 
 
 export const phonebookApi = createApi({
@@ -31,3 +32,18 @@ export const phonebookApi = createApi({
 
 export const { useFethPhonebookQuery, useDeleContactMutation, useCreateContactMutation } = phonebookApi
 
+const filterSlice = createSlice({
+    name: "filter",
+    initialState: {
+        filter: "",
+      },
+    reducers:{
+        addFilter(state, action){
+            state.filter = action.payload;
+        }
+    }
+
+})
+
+export const {addItems, deleteItems, addFilter} = filterSlice.actions
+export default filterSlice.reducer
